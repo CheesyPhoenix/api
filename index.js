@@ -20,8 +20,12 @@ app.get("/document/:path", (req, res) => {
 	res.status(200).sendFile(path, { root: __dirname });
 });
 app.post("/tshirt", (req, res) => {
-	fs.writeFileSync(dataPath, JSON.stringify(req.body, null, 2));
-	res.status(201);
+	if (req.body.password == "bananacode2043") {
+		fs.writeFileSync(dataPath, JSON.stringify(req.body.data, null, 2));
+		res.status(201).send("good");
+	} else {
+		res.status(401).send("wrong");
+	}
 });
 
 app.listen(PORT, () => {
