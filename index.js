@@ -6,6 +6,7 @@ const fs = require("fs");
 const app = express();
 const PORT = process.env.PORT || 8080;
 const path = require("path");
+const https = require("https");
 
 const dataPath = path.join(process.env.DATA_PATH || "./data/Menusites.json");
 
@@ -28,6 +29,13 @@ app.post("/tshirt", (req, res) => {
 	}
 });
 
-app.listen(PORT, () => {
-	console.log("running");
-});
+https
+	.createServer(
+		{
+			key: fs.readFileSync("./key.pem"),
+			cert: fs.readFileSync("./cert.pem"),
+			passphrase: "Fjelltur2021",
+		},
+		app
+	)
+	.listen(PORT);
