@@ -7,6 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const path = require("path");
 const { randomInt } = require("crypto");
+const https = require("https");
 
 const dataPath = path.join(process.env.DATA_PATH || "./data/Menusites.json");
 
@@ -31,7 +32,9 @@ app.get("/tshirt", (req, res) => {
 });
 app.get("/document/:path", (req, res) => {
 	const { path } = req.params;
-	res.status(200).sendFile(path + ".html", { root: __dirname });
+	res.status(200).sendFile("documents/" + path + ".html", {
+		root: __dirname,
+	});
 });
 app.post("/tshirt", (req, res) => {
 	if (req.body.password == activeLogin) {
